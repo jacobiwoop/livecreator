@@ -290,13 +290,7 @@
     </footer>
     
     <script>
-        // Script pour gérer le téléchargement
-        document.getElementById('downloadButton').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Ici vous ajouteriez la logique pour télécharger le fichier
-            alert('Téléchargement de l\'extension en cours...');
-            // window.location.href = 'chemin/vers/votre/fichier.zip';
-        });
+
     </script>
 </body>
 </html>
