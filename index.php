@@ -26,6 +26,12 @@ function getUsers($pdo) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Récupérer les mots depuis la BDD
+function getMots($pdo) {
+    $stmt = $pdo->query("SELECT mot FROM wordlist");
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
 // 7. Enregistrement de l'utilisateur (ajout dans la table `users`)
 function addUser($pdo, $username) {
     $stmt = $pdo->prepare("INSERT INTO users (pseudo) VALUES (?)");
@@ -53,6 +59,7 @@ if (str_starts_with($text, "/new_word")) {
         sendMessage($chat_id, "❌ Utilise la commande comme ceci : /new_word tonmot");
     }
 } elseif ($text === "/list_mot") {
+    $mots = getMots($pdo); // Récupérer les mots depuis la base de données
     $response = "📚 Liste des mots enregistrés :\n";
     foreach ($mots as $index => $mot) {
         $response .= ($index + 1) . ". $mot\n";
@@ -60,6 +67,7 @@ if (str_starts_with($text, "/new_word")) {
     sendMessage($chat_id, $response ?: "Aucun mot enregistré.");
 } elseif ($text === "/liste_user") {
     $response = "👥 Liste des utilisateurs :\n";
+    $users = getUsers($pdo); // Assurez-vous de récupérer les utilisateurs avant de les afficher
     foreach ($users as $index => $user) {
         // Formatage des informations utilisateur
         $response .= "Utilisateur " . ($index + 1) . " :\n";
