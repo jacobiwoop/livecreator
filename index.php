@@ -33,16 +33,11 @@ function getMots($pdo) {
 }
 
 // 7. Enregistrement de l'utilisateur (ajout dans la table `users`)
-function addUser($pdo, $username) {
-    $stmt = $pdo->prepare("INSERT INTO users (pseudo) VALUES (?)");
-    $stmt->execute([$username]);
-}
+
 
 // Enregistrer l'utilisateur si ce n'est pas déjà fait
 $users = getUsers($pdo); // Récupérer tous les utilisateurs depuis la BDD
-if (!in_array($username, array_column($users, 'pseudo'))) {
-    addUser($pdo, $username); // Ajouter l'utilisateur s'il n'existe pas
-}
+
 
 // 8. Gestion des commandes
 if (str_starts_with($text, "/new_word")) {
