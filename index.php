@@ -3,7 +3,7 @@
 $content = file_get_contents("php://input");
 
 // 2. (Optionnel) Sauvegarde brute pour debug
-file_put_contents("telegram_log.txt", $content, FILE_APPEND);
+// file_put_contents("telegram_log.txt", $content, FILE_APPEND);
 
 // 3. Décodage JSON
 $update = json_decode($content, true);
