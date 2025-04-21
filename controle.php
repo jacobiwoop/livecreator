@@ -1,5 +1,9 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *"); // Permet l'accès depuis n'importe où (ou remplace * par un domaine précis)
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 // ... le reste de ton code PHP
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
