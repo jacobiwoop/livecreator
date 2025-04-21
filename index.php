@@ -60,19 +60,19 @@ if (str_starts_with($text, "/new_word")) {
         $response .= ($index + 1) . ". $mot\n";
     }
     sendMessage($chat_id, $response ?: "Aucun mot enregistré.");
-} elseif ($text === "/liste_user") {
-    $response = "👥 Liste des utilisateurs :\n";
-    $users = getUsers($pdo); // Assurez-vous de récupérer les utilisateurs avant de les afficher
-    foreach ($users as $index => $user) {
-        // Formatage des informations utilisateur
-        $response .= "Utilisateur " . ($index + 1) . " :\n";
-        $response .= "ID : " . $user['id'] . "\n";
-        $response .= "Pseudo : " . $user['pseudo'] . "\n";
-        $response .= "Ban par utilisateur : " . ($user['ban_by_user'] ?: 'Aucun') . "\n";
-        $response .= "Temps de connexion : " . $user['conn_time'] . " heures\n\n";
+}} elseif ($text === "/liste_user") {
+    if (empty($users)) {
+        sendMessage($chat_id, "Aucun utilisateur trouvé.");
+    } else {
+        foreach ($users as $user) {
+            $message = "👤 *Pseudo* : `{$user['pseudo']}`\n";
+            $message .= "🚫 *Mots interdits* : `{$user['ban_by_user'] ?: 'Aucun'}`\n";
+            $message .= "⏱ *Heure de connexion* : `{$user['conn_time']}`";
+
+            sendMessage($chat_id, $message);
+        }
     }
-    sendMessage($chat_id, $response ?: "Aucun utilisateur encore.");
-} else {
+ else {
     sendMessage($chat_id, "Commande non reconnue. Essaie :\n/new_word mot\n/list_mot\n/liste_user");
 }
 
