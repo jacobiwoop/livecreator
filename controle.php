@@ -1,5 +1,5 @@
 <?php
-
+header("Access-Control-Allow-Origin: *");
 // ... le reste de ton code PHP
 
 require_once 'db.php'; // Connexion à la BDD
