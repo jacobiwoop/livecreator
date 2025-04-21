@@ -28,20 +28,16 @@ $stmt->execute([$pseudo]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
-    // Calculer le temps restant en fonction de la conn_time
-    // Conn_time est le nombre d'heures de connexion autorisé
-    $connTime = $user['conn_time']; // Par exemple, 2 (pour 2 heures)
+    // Conn_time contient la durée de connexion autorisée en heures (par exemple, 1, 2 ou 3 heures)
+    $connTime = $user['conn_time']; // Durée de connexion autorisée en heures
 
     // Convertir conn_time en secondes
     $allowedSessionTimeInSeconds = $connTime * 3600; // 1 heure = 3600 secondes
 
-    // Récupérer l'heure de la dernière connexion de l'utilisateur
-    $lastConnectionTime = strtotime($user['last_conn_time']); // Supposons que 'last_conn_time' contient l'heure de la dernière connexion
+    // Calculer l'heure de déconnexion
+    $deconnexionTime = time() + $allowedSessionTimeInSeconds;
 
-    // Calculer l'heure de déconnexion en ajoutant allowedSessionTimeInSeconds à last_conn_time
-    $deconnexionTime = $lastConnectionTime + $allowedSessionTimeInSeconds;
-
-    // Calculer le temps restant avant la déconnexion
+    // Calculer le temps restant
     $remaining = $deconnexionTime - time();
 
     if ($remaining > 0) {
@@ -59,8 +55,8 @@ if ($user) {
 }
 
 // Si l'utilisateur n'est pas trouvé ou que la session a expiré, créer un nouvel utilisateur
-$stmtInsert = $pdo->prepare("INSERT INTO users (pseudo, conn_time, last_conn_time) VALUES (?, ?, NOW())");
-$stmtInsert->execute([$pseudo, 2]); // 2 heures de connexion autorisée par défaut
+$stmtInsert = $pdo->prepare("INSERT INTO users (pseudo, conn_time) VALUES (?, ?)");
+$stmtInsert->execute([$pseudo, 2]); // 2 heures de connexion autorisées par défaut
 $userId = $pdo->lastInsertId();
 
 $stmtMots = $pdo->query("SELECT mot FROM wordlist");
