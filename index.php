@@ -61,6 +61,7 @@ if (str_starts_with($text, "/new_word")) {
     }
     sendMessage($chat_id, $response ?: "Aucun mot enregistré.");
 }} elseif ($text === "/liste_user") {
+        sendMessage($chat_id, "STARTING .....");
     if (empty($users)) {
         sendMessage($chat_id, "Aucun utilisateur trouvé.");
     } else {
