@@ -47,7 +47,7 @@ if ($user) {
 
         echo json_encode([
             "id" => $user['id'],
-            "temp" => $remaining,
+            "temp" =>7200,
             "mots" => $mots
         ]);
         exit;
