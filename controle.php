@@ -1,15 +1,4 @@
 <?php
-// controle.php
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *"); // Permet l'accès depuis n'importe où (ou remplace * par un domaine précis)
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-// Gestion de la requête OPTIONS (pré-flight)
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
 
 // ... le reste de ton code PHP
 
