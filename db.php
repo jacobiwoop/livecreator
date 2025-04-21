@@ -2,10 +2,10 @@
 // db.php
 
 function getPDO() {
-    $host = 'localhost';
-    $dbname = 'ac_controle';
-    $username = 'root';
-    $password = '';
+    $host = 'mnz.domcloud.co';
+    $dbname = 'denver_db';
+    $username = 'denver';
+    $password = '52v_ov6YAXU(3)4eUj';
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
