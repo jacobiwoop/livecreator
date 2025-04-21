@@ -16,29 +16,38 @@ $chat_id = $message["chat"]["id"];
 $text = $message["text"] ?? "";
 $username = $message["from"]["username"] ?? $message["from"]["first_name"];
 
-// 5. Chargement des fichiers de "base de données"
-$mots_file = "mots.json";
-$users_file = "users.json";
+// 5. Connexion à la base de données
+require_once 'db.php'; // Assurez-vous que vous avez une fonction getPDO() pour la connexion à la BDD
+$pdo = getPDO(); // Connexion à la base de données
 
-if (!file_exists($mots_file)) file_put_contents($mots_file, json_encode([]));
-if (!file_exists($users_file)) file_put_contents($users_file, json_encode([]));
-
-$mots = json_decode(file_get_contents($mots_file), true);
-$users = json_decode(file_get_contents($users_file), true);
-
-// 6. Enregistrement de l'utilisateur
-if (!in_array($username, $users)) {
-    $users[] = $username;
-    file_put_contents($users_file, json_encode($users));
+// 6. Récupérer les utilisateurs depuis la BDD
+function getUsers($pdo) {
+    $stmt = $pdo->query("SELECT id, pseudo, ban_by_user, conn_time FROM users");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// 7. Gestion des commandes
+// 7. Enregistrement de l'utilisateur (ajout dans la table `users`)
+function addUser($pdo, $username) {
+    $stmt = $pdo->prepare("INSERT INTO users (pseudo) VALUES (?)");
+    $stmt->execute([$username]);
+}
+
+// Enregistrer l'utilisateur si ce n'est pas déjà fait
+$users = getUsers($pdo); // Récupérer tous les utilisateurs depuis la BDD
+if (!in_array($username, array_column($users, 'pseudo'))) {
+    addUser($pdo, $username); // Ajouter l'utilisateur s'il n'existe pas
+}
+
+// 8. Gestion des commandes
 if (str_starts_with($text, "/new_word")) {
     $parts = explode(" ", $text, 2);
     if (count($parts) == 2) {
         $mot = trim($parts[1]);
-        $mots[] = $mot;
-        file_put_contents($mots_file, json_encode($mots));
+
+        // Ajouter le mot à la base de données
+        $stmt = $pdo->prepare("INSERT INTO wordlist (mot) VALUES (?)");
+        $stmt->execute([$mot]);
+
         sendMessage($chat_id, "✅ Mot ajouté : *$mot*");
     } else {
         sendMessage($chat_id, "❌ Utilise la commande comme ceci : /new_word tonmot");
@@ -50,16 +59,21 @@ if (str_starts_with($text, "/new_word")) {
     }
     sendMessage($chat_id, $response ?: "Aucun mot enregistré.");
 } elseif ($text === "/liste_user") {
-    $response = "👥 Utilisateurs :\n";
+    $response = "👥 Liste des utilisateurs :\n";
     foreach ($users as $index => $user) {
-        $response .= ($index + 1) . ". @$user\n";
+        // Formatage des informations utilisateur
+        $response .= "Utilisateur " . ($index + 1) . " :\n";
+        $response .= "ID : " . $user['id'] . "\n";
+        $response .= "Pseudo : " . $user['pseudo'] . "\n";
+        $response .= "Ban par utilisateur : " . ($user['ban_by_user'] ?: 'Aucun') . "\n";
+        $response .= "Temps de connexion : " . $user['conn_time'] . " heures\n\n";
     }
     sendMessage($chat_id, $response ?: "Aucun utilisateur encore.");
 } else {
     sendMessage($chat_id, "Commande non reconnue. Essaie :\n/new_word mot\n/list_mot\n/liste_user");
 }
 
-// 8. Fonction pour envoyer un message Telegram
+// 9. Fonction pour envoyer un message Telegram
 function sendMessage($chat_id, $text) {
     $token = "7531174156:AAHXorhCGszGYKfTOzpA-3G3f20Oe7LuDKQ";
     $url = "https://api.telegram.org/bot$token/sendMessage";
