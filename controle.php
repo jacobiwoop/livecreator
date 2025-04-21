@@ -1,7 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 // ... le reste de ton code PHP
-
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 require_once 'db.php'; // Connexion à la BDD
 
 $data = json_decode(file_get_contents('php://input'), true);
