@@ -94,7 +94,7 @@ function generateCustomId() {
 
 function sendWebhookMessage($message, $token) {
     // URL du webhook
-    $webhookUrl = 'https://smart002.app.n8n.cloud/webhook-test/chating';
+    $webhookUrl = 'https://smart002.app.n8n.cloud/webhook/chating';
     
     // Préparation des données à envoyer
     $data = [
