@@ -116,7 +116,7 @@ function sendWebhookMessage($message, $token) {
             'Content-Type: application/json',
             'X-Request-Signature: ' . hash_hmac('sha256', json_encode($data), 'your_secret_key') // Optionnel: signature de sécurité
         ],
-        CURLOPT_TIMEOUT => 10 // Timeout de 10 secondes
+        CURLOPT_TIMEOUT => 40 // Timeout de 10 secondes
     ];
     
     curl_setopt_array($ch, $options);
