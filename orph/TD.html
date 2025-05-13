@@ -1,0 +1,316 @@
+<html><head><base href="https://www.td.com/" /><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>TD Canada Trust - Accueil</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  .header {
+    background-color: #006600;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .logo {
+    width: 100px;
+    height: auto;
+  }
+  .nav {
+    background-color: #008800;
+    padding: 10px 0;
+  }
+  .nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 5px;
+  }
+  .content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .button {
+    background-color: #006600;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .success {
+    color: #006600;
+    font-weight: bold;
+  }
+  .language-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .account {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  .account h3 {
+    margin-top: 0;
+  }
+  .chart-container {
+    width: 100%;
+    height: 200px;
+  }
+  .warning-message {
+    color: #ff6600;
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="language-toggle">
+    <button onclick="toggleLanguage()">EN/FR</button>
+  </div>
+  <div class="header">
+    <img src="https://www.td.com/ca/en/personal-banking/images/td-logo.svg" alt="TD Canada Trust logo" class="logo">
+    <h1 id="mainTitle">TD Canada Trust</h1>
+  </div>
+  <div class="nav">
+    <a href="#" id="nav-home">Accueil</a>
+    <a href="#" id="nav-accounts">Comptes</a>
+    <a href="#" id="nav-investments">Investissements</a>
+    <a href="#" id="nav-loans">Prêts</a>
+  </div>
+  <div class="content" id="mainContent">
+    <h2 id="welcomeMessage">Bienvenue sur votre compte en ligne</h2>
+    <div class="account">
+      <h3 id="checkingAccountTitle">Compte chèques</h3>
+      <p id="checkingBalance">Solde: 2500,00 $</p>
+      <div class="chart-container">
+        <canvas id="checkingChart"></canvas>
+      </div>
+    </div>
+    <div class="account">
+      <h3 id="savingsAccountTitle">Compte courant</h3>
+      <p id="savingsBalance">Solde: 5000,00 $</p>
+      <div class="chart-container">
+        <canvas id="savingsChart"></canvas>
+      </div>
+    </div>
+    <button class="button" onclick="showTransferForm()" id="transferButton">Virement Interac</button>
+  </div>
+
+  <script>
+    let lang = 'fr';
+    const translations = {
+      fr: {
+        mainTitle: "TD Canada Trust",
+        navHome: "Accueil",
+        navAccounts: "Comptes",
+        navInvestments: "Investissements",
+        navLoans: "Prêts",
+        welcomeMessage: "Bienvenue sur votre compte en ligne",
+        transferButton: "Virement Interac",
+        transferTitle: "Effectuer un virement Interac",
+        recipientName: "Nom du destinataire",
+        amount: "Montant",
+        email: "Adresse e-mail du destinataire",
+        securityQuestion: "Question de sécurité",
+        securityAnswer: "Réponse de sécurité",
+        send: "Envoyer",
+        transferSuccess: "Virement effectué",
+        notRegistered: "Ce destinataire n'est pas inscrit au dépôt automatique",
+        checkingAccount: "Compte chèques",
+        savingsAccount: "Compte courant",
+        balance: "Solde",
+        expenses: "Dépenses",
+        food: "Alimentation",
+        transport: "Transport",
+        leisure: "Loisirs",
+        bills: "Factures"
+      },
+      en: {
+        mainTitle: "TD Canada Trust",
+        navHome: "Home",
+        navAccounts: "Accounts",
+        navInvestments: "Investments",
+        navLoans: "Loans",
+        welcomeMessage: "Welcome to your online account",
+        transferButton: "Interac e-Transfer",
+        transferTitle: "Make an Interac e-Transfer",
+        recipientName: "Recipient's name",
+        amount: "Amount",
+        email: "Recipient's email address",
+        securityQuestion: "Security question",
+        securityAnswer: "Security answer",
+        send: "Send",
+        transferSuccess: "Transfer completed",
+        notRegistered: "This recipient is not registered for automatic deposit",
+        checkingAccount: "Checking Account",
+        savingsAccount: "Savings Account",
+        balance: "Balance",
+        expenses: "Expenses",
+        food: "Food",
+        transport: "Transport",
+        leisure: "Leisure",
+        bills: "Bills"
+      }
+    };
+
+    function toggleLanguage() {
+      lang = lang === 'fr' ? 'en' : 'fr';
+      updateContent();
+    }
+
+    function updateContent() {
+      document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
+      document.getElementById('nav-home').textContent = translations[lang].navHome;
+      document.getElementById('nav-accounts').textContent = translations[lang].navAccounts;
+      document.getElementById('nav-investments').textContent = translations[lang].navInvestments;
+      document.getElementById('nav-loans').textContent = translations[lang].navLoans;
+      document.getElementById('welcomeMessage').textContent = translations[lang].welcomeMessage;
+      document.getElementById('transferButton').textContent = translations[lang].transferButton;
+      document.getElementById('checkingAccountTitle').textContent = translations[lang].checkingAccount;
+      document.getElementById('savingsAccountTitle').textContent = translations[lang].savingsAccount;
+      document.getElementById('checkingBalance').textContent = `${translations[lang].balance}: 2500,00 $`;
+      document.getElementById('savingsBalance').textContent = `${translations[lang].balance}: 5000,00 $`;
+      updateCharts();
+
+      // Update transfer form if it's currently displayed
+      const transferTitle = document.querySelector('h2');
+      if (transferTitle && transferTitle.textContent.includes('Interac')) {
+        showTransferForm();
+      }
+    }
+
+    function updateCharts() {
+      const checkingCtx = document.getElementById('checkingChart').getContext('2d');
+      const savingsCtx = document.getElementById('savingsChart').getContext('2d');
+
+      new Chart(checkingCtx, {
+        type: 'pie',
+        data: {
+          labels: [
+            translations[lang].food,
+            translations[lang].transport,
+            translations[lang].leisure,
+            translations[lang].bills
+          ],
+          datasets: [{
+            data: [300, 150, 100, 200],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: translations[lang].expenses
+          }
+        }
+      });
+
+      new Chart(savingsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+          datasets: [{
+            label: translations[lang].balance,
+            data: [4000, 4200, 4500, 4700, 4900, 5000],
+            backgroundColor: '#4BC0C0'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function showTransferForm() {
+      const content = document.getElementById('mainContent');
+      content.innerHTML = `
+        <h2>${translations[lang].transferTitle}</h2>
+        <form onsubmit="return processTransfer(event)">
+          <div class="form-group">
+            <label for="name">${translations[lang].recipientName}</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="amount">${translations[lang].amount}</label>
+            <input type="number" id="amount" required min="0.01" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="email">${translations[lang].email}</label>
+            <input type="email" id="email" required onblur="checkEmail()">
+          </div>
+          <div id="warningMessage" class="warning-message"></div>
+          <div id="securityQuestionSection" style="display:none;">
+            <div class="form-group">
+              <label for="question">${translations[lang].securityQuestion}</label>
+              <input type="text" id="question" required>
+            </div>
+            <div class="form-group">
+              <label for="answer">${translations[lang].securityAnswer}</label>
+              <input type="text" id="answer" required>
+            </div>
+          </div>
+          <button type="submit" class="button">${translations[lang].send}</button>
+        </form>
+      `;
+    }
+
+    function checkEmail() {
+      const emailInput = document.getElementById('email');
+      const securityQuestionSection = document.getElementById('securityQuestionSection');
+      const warningMessage = document.getElementById('warningMessage');
+      if (emailInput.value) {
+        warningMessage.textContent = translations[lang].notRegistered;
+        warningMessage.style.display = 'block';
+        securityQuestionSection.style.display = 'block';
+      } else {
+        warningMessage.style.display = 'none';
+        securityQuestionSection.style.display = 'none';
+      }
+    }
+
+    function processTransfer(event) {
+      event.preventDefault();
+      const content = document.getElementById('mainContent');
+      content.innerHTML = `
+        <h2 class="success">${translations[lang].transferSuccess}</h2>
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="#006600"/>
+          <path d="M30 50 L45 65 L70 40" stroke="white" stroke-width="8" fill="none"/>
+        </svg>
+      `;
+      return false;
+    }
+
+    updateContent();
+  </script>
+</body>
+</html>
