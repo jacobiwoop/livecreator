@@ -17,7 +17,7 @@ COPY . /var/www/html/
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
 # Définir le répertoire de travail
-WORKDIR /var/www/html
+WORKDIR /var/www/html/orph
 
 # Ouvre le port (Render expose 80 automatiquement)
 EXPOSE 80
