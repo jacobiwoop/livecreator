@@ -19,6 +19,6 @@ RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
 # Définir le répertoire de travail
 WORKDIR /var/www/html
-
+RUN echo "DocumentRoot /var/www/html/orph/" > /etc/apache2/sites-available/000-default.conf
 # Ouvre le port (Render expose 80 automatiquement)
 EXPOSE 80
