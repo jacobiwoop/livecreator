@@ -973,7 +973,7 @@ org_id=bzmgl3t1s&session_id=21e0225c-09a5-4d5a-98c5-416315dff079" height="0" wid
 
 
 									<li class="pure-u-1-2 pure-u-sm-1-3 pure-u-md-1-4 pure-u-lg-1-6 ui-link">
-										<a href="./tdd" filabel="TD Canada Trust" class="fi-tile"
+										<a href="/tdd" filabel="TD Canada Trust" class="fi-tile"
 											fiid="CA000004" value="CA000004" data-ajax="false">
 											<div
 												class="white-background pure-g inherit-height vertical-middle fi-option">
