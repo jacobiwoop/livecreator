@@ -1,23 +1,26 @@
-# Image officielle avec Apache
+# Utilise l'image officielle de PHP avec Apache
 FROM php:8.2-apache
 
-# Active mod_rewrite (utile pour .htaccess, Laravel, etc.)
+# Active le module mod_rewrite (utile pour .htaccess)
 RUN a2enmod rewrite
 
-# Installe les extensions nécessaires
+# Installe les extensions PHP nécessaires
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Active affichage des erreurs (fichier copié ensuite)
+# Copie ton fichier de configuration PHP personnalisé
 COPY php.ini /usr/local/etc/php/
 
-# Copie tous les fichiers du projet
+# Copie tous les fichiers du projet dans le conteneur
 COPY . /var/www/html/
 
-# Fixe les permissions
+# Définit le répertoire de travail (optionnel mais clair)
+WORKDIR /var/www/html/orph/
+
+# Modifie la racine du document Apache
+RUN echo "DocumentRoot /var/www/html/orph/" > /etc/apache2/sites-available/000-default.conf
+
+# Fixe les permissions appropriées
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
-# Définir le répertoire de travail
-WORKDIR /var/www/html/orph
-
-# Ouvre le port (Render expose 80 automatiquement)
+# Expose le port 80 (Render l'utilise par défaut)
 EXPOSE 80
