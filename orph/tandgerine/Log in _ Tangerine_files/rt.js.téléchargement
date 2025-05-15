@@ -1,5 +1,0 @@
-window.runtime = {
-  appPlatform: 'web',
-  web: true,
-  nwa: false,
-}
